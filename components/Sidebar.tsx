@@ -1,9 +1,9 @@
 'use client';
-import { LayoutDashboard, CalendarCheck, Map, Clock, StickyNote, BookOpen, BarChart2, Settings, Flame, Zap, LogOut } from 'lucide-react';
+import { LayoutDashboard, CalendarCheck, Map, Clock, StickyNote, BookOpen, BarChart2, Settings, Flame, Zap, LogOut, type LucideIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { View } from '@/app/page';
 
-const NAV_ITEMS: { id: View; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }[] = [
+const NAV_ITEMS: { id: View; label: string; icon: LucideIcon }[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'today', label: 'Today', icon: CalendarCheck },
   { id: 'roadmap', label: 'Roadmap', icon: Map },
