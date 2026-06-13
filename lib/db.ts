@@ -1,4 +1,4 @@
-import { createClient, type Client } from '@libsql/client';
+import { createClient, type Client, type InValue } from '@libsql/client';
 
 // In dev: uses local file  (TURSO_DATABASE_URL=file:./data/sprint.db)
 // In prod: uses Turso cloud (TURSO_DATABASE_URL=libsql://...  TURSO_AUTH_TOKEN=...)
@@ -20,10 +20,14 @@ export async function ensureInit(): Promise<void> {
   await _initPromise;
 }
 
+function toArgs(args: unknown[]): InValue[] {
+  return args as InValue[];
+}
+
 // Query multiple rows
 export async function q<T = Record<string, unknown>>(sql: string, args: unknown[] = []): Promise<T[]> {
   await ensureInit();
-  const r = await client().execute({ sql, args });
+  const r = await client().execute({ sql, args: toArgs(args) });
   return r.rows as unknown as T[];
 }
 
@@ -36,7 +40,7 @@ export async function q1<T = Record<string, unknown>>(sql: string, args: unknown
 // Insert / update / delete — returns last inserted id
 export async function run(sql: string, args: unknown[] = []): Promise<number> {
   await ensureInit();
-  const r = await client().execute({ sql, args });
+  const r = await client().execute({ sql, args: toArgs(args) });
   return Number(r.lastInsertRowid);
 }
 
